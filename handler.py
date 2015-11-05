@@ -19,12 +19,16 @@ while True:
     data = client.recv(1024)
 
     cmd = raw_input(data)
+    ping = "ping -c 3 google.com"
 
     if cmd == 'quit' or cmd == 'q':
         break
 
     if cmd == 'exit':
         break
+
+    if cmd == 'p':
+       cmd = ping
 
     if cmd:
         client.sendall('{}\n'.format(cmd).encode('utf-8'))
